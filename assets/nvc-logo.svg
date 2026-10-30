@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 860" role="img" aria-label="Nambucca Valley Council">
+  <defs>
+    <radialGradient id="sun" cx="50%" cy="50%" r="55%">
+      <stop offset="0%" stop-color="#E63A1C"/>
+      <stop offset="42%" stop-color="#F26D0A"/>
+      <stop offset="78%" stop-color="#F9B200"/>
+      <stop offset="100%" stop-color="#FBC500"/>
+    </radialGradient>
+  </defs>
+
+  <!-- Sun -->
+  <circle cx="500" cy="250" r="128" fill="url(#sun)"/>
+
+  <!-- Three brush-stroke waves under the sun -->
+  <path d="M150,320 C 270,298 370,336 480,324 C 600,311 710,296 855,320"
+        fill="none" stroke="#2E9C79" stroke-width="21" stroke-linecap="round"/>
+  <path d="M175,350 C 305,335 425,365 548,352 C 675,339 765,335 832,351"
+        fill="none" stroke="#E23A2C" stroke-width="13" stroke-linecap="round"/>
+  <path d="M160,382 C 300,367 430,399 560,384 C 692,369 782,371 858,389"
+        fill="none" stroke="#F4B63F" stroke-width="17" stroke-linecap="round"/>
+
+  <!-- Wordmark -->
+  <text x="500" y="500" text-anchor="middle" fill="#141414"
+        font-family="'Chalkboard SE','Comic Sans MS','Trebuchet MS',sans-serif"
+        font-size="112" font-weight="800">Nambucca</text>
+  <text x="500" y="602" text-anchor="middle" fill="#141414"
+        font-family="'Chalkboard SE','Comic Sans MS','Trebuchet MS',sans-serif"
+        font-size="108" font-weight="800">Valley Council</text>
+
+  <!-- Blue wave -->
+  <path d="M175,675 C 325,650 435,694 562,674 C 692,653 785,670 878,684"
+        fill="none" stroke="#3E8ECF" stroke-width="34" stroke-linecap="round"/>
+</svg>

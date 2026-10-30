@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- Keep the draft out of search engines -->
+  <meta name="robots" content="noindex, nofollow" />
+  <title>Event Action Plan Tool — Nambucca Valley Council</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app" id="app">
+
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-logo-plate">
+          <img class="brand-logo-img" src="assets/nvc-logo.png" alt="Nambucca Valley Council"
+               onerror="this.onerror=null;this.src='assets/nvc-logo.svg';" />
+        </div>
+        <div class="brand-text">
+          <h1>Event Planner</h1>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="btn btn-ghost" id="btn-restart" type="button">Refresh</button>
+        <button class="btn btn-primary hidden" id="btn-download" type="button">Download</button>
+      </div>
+    </header>
+
+    <!-- ============ DASHBOARD ============ -->
+    <main class="view" id="view-dashboard">
+      <div class="intro">
+        <h2>Plan your event</h2>
+        <p>Answer a few questions about your event and we'll build you a downloadable Event Action Plan &mdash;
+           the requirements that apply, an action checklist, and the risks to plan for. Work through the six
+           categories below in any order. The Approval Level updates live as you go.</p>
+      </div>
+
+      <div class="tile-grid" id="tile-grid">
+        <!-- 6 input tiles + 1 double-width Live Level tile injected here -->
+      </div>
+
+      <div class="dashboard-footer">
+        <button class="btn btn-primary btn-lg" id="btn-generate" type="button" disabled>
+          Generate Event Action Plan
+        </button>
+      </div>
+    </main>
+
+    <!-- ============ QUESTION FLOW ============ -->
+    <main class="view hidden" id="view-questions">
+      <div class="q-header">
+        <button class="btn btn-ghost" id="btn-back-dash" type="button">&larr; Back to dashboard</button>
+        <div class="q-category-label" id="q-category-label"></div>
+      </div>
+      <div class="q-body">
+        <form id="q-form" class="q-form" autocomplete="off"></form>
+      </div>
+      <div class="q-footer">
+        <button class="btn btn-primary" id="btn-save-category" type="button">Save &amp; return to dashboard</button>
+      </div>
+    </main>
+
+    <!-- ============ ACTION PLAN PREVIEW ============ -->
+    <main class="view hidden" id="view-plan">
+      <div class="q-header">
+        <button class="btn btn-ghost" id="btn-back-dash-2" type="button">&larr; Back to dashboard</button>
+        <div class="plan-actions" id="doc-tabs" role="tablist" aria-label="Documents">
+          <button class="btn btn-ghost doc-tab" data-doc="plan" role="tab" type="button">Action Plan</button>
+          <button class="btn btn-ghost doc-tab" data-doc="es" role="tab" type="button" hidden>Emergency Services Notification</button>
+          <button class="btn btn-ghost doc-tab" data-doc="resident" role="tab" type="button" hidden>Resident Notification</button>
+        </div>
+      </div>
+      <div class="plan-layout">
+        <div class="plan-body" id="plan-body"></div>
+        <!-- Thin Council documentation tracker, to the right of the plan -->
+        <aside class="doc-pane" id="doc-pane" aria-label="Documentation checklist"></aside>
+      </div>
+    </main>
+
+    <!-- Persistent Live Level bar on small screens -->
+    <div class="live-strip" id="live-strip" hidden></div>
+
+  </div>
+
+  <!-- Vendored, offline, self-contained: real Word (.docx) generation in-browser -->
+  <script src="vendor/docx.umd.min.js"></script>
+  <!-- Data model (native code port of the Rules Workbook — no runtime spreadsheet dependency) -->
+  <script src="data/registry.js"></script>
+  <script src="data/levels.js"></script>
+  <script src="data/topics.js"></script>
+  <script src="data/notifications.js"></script>
+  <script src="data/letterhead.js"></script>
+  <!-- Site settings: draft banner and feedback link (turned on for the public feedback site) -->
+  <script src="data/site.js"></script>
+  <!-- App logic -->
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,357 @@
+/* ============================================================
+   Event Action Plan Tool — neutral theme
+   All colour/shape tokens live here so a branded theme.css can
+   later override :root variables without touching markup.
+   ============================================================ */
+:root {
+  /* NVC brand palette (drawn from the Council logo) */
+  --c-bg:            #2b6cb0;   /* page background — the Council blue */
+  --c-bg-text:       #ffffff;   /* text that sits directly on the blue */
+  --c-bg-text-soft:  rgba(255,255,255,.82);
+  --c-surface:       #ffffff;
+  --c-surface-2:     #f8fafc;
+  --c-border:        #dfe4ea;
+  --c-text:          #1f2733;
+  --c-text-soft:     #5a6675;
+  --c-text-faint:    #8a95a3;
+
+  --c-primary:       #2b6cb0;   /* accents on white surfaces (chips, headlines, focus) */
+  --c-primary-dark:  #245a94;
+  --c-primary-soft:  #e8f1fa;
+
+  /* Call-to-action — the warm "sun" gold from the logo, for buttons on the blue */
+  --c-cta:           #F5A623;
+  --c-cta-dark:      #E08C0A;
+  --c-cta-text:      #1f2733;
+
+  --c-accent:        #2f855a;   /* included / positive */
+  --c-warn:         #b7791f;
+  --c-danger:        #c0392b;
+
+  /* Approval Level colours */
+  --lvl-1: #2f855a;
+  --lvl-2: #3182ce;
+  --lvl-3: #b7791f;
+  --lvl-4: #c0392b;
+  --lvl-none: #8a95a3;
+
+  --radius:   12px;
+  --radius-sm: 8px;
+  --shadow:   0 1px 2px rgba(16,24,40,.05), 0 4px 12px rgba(16,24,40,.06);
+  --shadow-lg:0 8px 28px rgba(16,24,40,.12);
+
+  --font: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --maxw: 1280px;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  font-family: var(--font);
+  color: var(--c-text);
+  background: var(--c-bg);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+.app { max-width: var(--maxw); margin: 0 auto; padding: 0 20px 80px; }
+
+/* ---------- Header ---------- */
+.app-header {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 20px 0 18px; margin-bottom: 8px;
+}
+.brand { display: flex; align-items: center; gap: 14px; }
+.brand-logo-plate {
+  background: #fff; border-radius: 12px; padding: 6px 10px;
+  box-shadow: var(--shadow); display: grid; place-items: center; flex: none;
+}
+.brand-logo-img { display: block; height: 60px; width: auto; }
+.brand-text h1 { font-size: 40px; margin: 0; font-weight: 700; color: var(--c-bg-text); }
+.brand-text p  { font-size: 13px; margin: 2px 0 0; color: var(--c-bg-text-soft); }
+
+/* ---------- Views ---------- */
+.view { animation: fade .18s ease; }
+.hidden { display: none !important; }
+@keyframes fade { from { opacity: 0; transform: translateY(4px);} to {opacity:1; transform:none;} }
+
+.intro { margin: 8px 0 22px; }
+.intro h2 { font-size: 22px; margin: 0 0 6px; color: var(--c-bg-text); }
+.intro p  { max-width: 720px; color: var(--c-bg-text-soft); margin: 0; font-size: 14.5px; }
+
+/* ---------- Tile grid ---------- */
+.tile-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));   /* equal columns, whatever the title length */
+  grid-auto-rows: 1fr;          /* every row the same height, so all seven tiles match */
+  gap: 16px;
+}
+.tile {
+  background: var(--c-surface);
+  border: 4px solid var(--c-border);   /* accent border (colour set per-tile) */
+  border-radius: var(--radius);
+  padding: 18px 18px 16px;
+  box-shadow: var(--shadow);
+  cursor: pointer;
+  text-align: left;
+  display: flex; flex-direction: column; gap: 10px;
+  min-height: 148px;
+  transition: box-shadow .15s, transform .05s;
+}
+.tile:hover { box-shadow: var(--shadow-lg); }
+.tile:active { transform: translateY(1px); }
+.tile-top { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; }
+.tile-icon {
+  width: 38px; height: 38px; border-radius: 9px;
+  background: var(--c-primary-soft); color: var(--c-primary);
+  display: grid; place-items: center; font-size: 20px; flex: none;
+}
+.tile-title { font-weight: 700; font-size: clamp(20px, 2.6vw, 31px); line-height: 1.1; margin: 0; }  /* plain viewport sizing — no container-query dependency */
+.tile-sub { font-size: 12.5px; color: var(--c-text-soft); margin: 0; flex: 1; }
+.tile-status {
+  font-size: 12px; font-weight: 600; margin-top: auto;
+  display: inline-flex; align-items: center; gap: 6px;
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; background: var(--c-text-faint); }
+.tile-status.done   { color: var(--c-accent); }
+.tile-status.done .dot { background: var(--c-accent); }
+.tile-status.partial { color: var(--c-warn); }
+.tile-status.partial .dot { background: var(--c-warn); }
+.tile-status.todo   { color: var(--c-text-faint); }
+.tile-badge {
+  font-size: 11px; font-weight: 700; color: #fff; background: var(--c-danger);
+  border-radius: 20px; padding: 1px 8px;
+}
+
+/* ---------- Live Level tile (double width) ---------- */
+.tile-live {
+  grid-column: span 2;
+  cursor: default;
+  background: linear-gradient(135deg, #1f2733, #2b3a4d);
+  color: #fff; border: none;
+  justify-content: space-between;
+}
+.tile-live:hover { box-shadow: var(--shadow-lg); }
+.live-head { display: flex; align-items: center; justify-content: space-between; }
+.live-label { font-size: 12.5px; text-transform: uppercase; letter-spacing: .6px; color: #c7d2de; }
+.live-level-num {
+  font-size: 46px; font-weight: 750; line-height: 1;
+}
+.live-level-row { display: flex; align-items: center; gap: 16px; }
+.live-badge {
+  padding: 5px 12px; border-radius: 20px; font-weight: 700; font-size: 13px; color: #fff;
+}
+.live-desc { font-size: 13.5px; color: #e6ebf1; margin: 2px 0 0; }
+.live-timeframe { font-size: 12px; color: #aeb9c6; margin-top: 6px; }
+.live-drivers { list-style: none; padding: 0; margin: 8px 0 0; display: flex; flex-wrap: wrap; gap: 6px; }
+.live-drivers li {
+  font-size: 11.5px; background: rgba(255,255,255,.12); color: #eaf0f6;
+  padding: 2px 9px; border-radius: 20px;
+}
+.pulse { animation: pulse .5s ease; }
+@keyframes pulse { 0%{transform:scale(1);} 40%{transform:scale(1.06);} 100%{transform:scale(1);} }
+
+/* ---------- Dashboard footer ---------- */
+/* ---------- Plan page: document + thin documentation column ---------- */
+/* Document + thin doc column, side by side at ALL widths.
+   `safe center` centres when it fits but left-aligns (scrollable) when the
+   window is too narrow, so the document's left edge is never cut off. */
+.plan-layout { display: flex; gap: 14px; align-items: flex-start; justify-content: safe center; }
+.plan-layout .plan-body { flex: 0 1 auto; min-width: 0; }
+.doc-pane { flex: 0 0 240px; width: 240px; position: sticky; top: 12px; }
+
+/* ---------- Documentation checklist card (thin column) ---------- */
+.doc-card {
+  background: var(--c-surface); border: 1px solid var(--c-border); border-radius: var(--radius-sm);
+  box-shadow: var(--shadow); padding: 10px 9px 8px; color: var(--c-text);
+}
+.doc-title { font-size: 12px; font-weight: 700; margin: 0 0 8px; }
+.doc-sub { font-size: 12px; color: var(--c-text-soft); margin: 0; line-height: 1.35; }
+.doc-hint { font-size: 12px; color: var(--c-warn); background: #fdf6e7; border-radius: 5px; padding: 5px 7px; margin: 0 0 9px; line-height: 1.3; }
+
+.doc-progress { margin-bottom: 10px; }
+.doc-progress-head { display: flex; justify-content: space-between; align-items: baseline; font-size: 12px; font-weight: 600; color: var(--c-text-soft); margin-bottom: 4px; }
+.doc-pct { font-size: 12px; color: var(--c-text); }
+.doc-bar { height: 5px; border-radius: 999px; background: var(--c-surface-2); overflow: hidden; }
+.doc-bar-fill { height: 100%; border-radius: 999px; background: var(--c-accent); transition: width .25s ease; }
+
+.doc-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 5px; }
+.doc-item {
+  display: flex; gap: 7px; align-items: center;   /* checkbox vertically centred in the row */
+  background: var(--c-surface-2); border: 1px solid var(--c-border);
+  border-left: 3px solid var(--c-border); border-radius: var(--radius-sm); padding: 6px 7px;
+}
+.doc-item-main { flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.doc-check { width: 14px; height: 14px; flex: none; cursor: pointer; accent-color: var(--c-accent); }
+.doc-text { font-size: 12px; line-height: 1.3; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }  /* keep each label on one line */
+.doc-badge { align-self: flex-start; font-size: 12px; font-weight: 700; padding: 0 6px; border-radius: 999px; white-space: nowrap; }
+
+/* status colours: red = overdue, amber = due soon, green = plenty of time */
+.doc-item.status-overdue { border-left-color: var(--c-danger); }
+.doc-item.status-soon    { border-left-color: var(--c-warn); }
+.doc-item.status-ok      { border-left-color: var(--c-accent); }
+.doc-badge.status-overdue { background: #fbeae8; color: var(--c-danger); }
+.doc-badge.status-soon    { background: #fdf3e0; color: var(--c-warn); }
+.doc-badge.status-ok      { background: #e8f3ec; color: var(--c-accent); }
+.doc-badge.status-none    { background: var(--c-surface-2); color: var(--c-text-faint); }
+.doc-item.submitted { border-left-color: var(--c-accent); opacity: .6; }
+.doc-item.submitted .doc-text { text-decoration: line-through; }
+.doc-badge.is-done { background: var(--c-accent); color: #fff; }
+
+.doc-foot { margin-top: 10px; padding-top: 8px; border-top: 1px solid var(--c-border); font-size: 12px; font-weight: 600; color: var(--c-text-soft); text-align: center; }
+
+/* (No stacking rule — the documentation column stays to the right of the plan at every width.) */
+
+.dashboard-footer { margin-top: 26px; text-align: center; }
+.hint { font-size: 13px; color: var(--c-bg-text-soft); margin: 10px 0 0; }
+
+/* ---------- Buttons ---------- */
+.btn {
+  font-family: inherit; font-size: 14px; font-weight: 600;
+  border-radius: var(--radius-sm); border: 1px solid transparent;
+  padding: 9px 16px; cursor: pointer; transition: background .15s, border-color .15s, opacity .15s;
+}
+.btn:disabled { opacity: .5; cursor: not-allowed; }
+.btn-primary { background: var(--c-cta); color: var(--c-cta-text); }
+.btn-primary:hover:not(:disabled) { background: var(--c-cta-dark); }
+/* Ghost buttons sit on the blue background — light outline style */
+.btn-ghost { background: rgba(255,255,255,.08); color: #fff; border-color: rgba(255,255,255,.45); }
+.btn-ghost:hover { background: rgba(255,255,255,.18); color: #fff; }
+/* Ghost buttons placed on a white surface (e.g. inside the plan card) */
+.plan-body .btn-ghost, .q-body .btn-ghost { background: transparent; color: var(--c-text-soft); border-color: var(--c-border); }
+.plan-body .btn-ghost:hover, .q-body .btn-ghost:hover { background: var(--c-surface-2); color: var(--c-text); }
+.btn-lg { padding: 13px 30px; font-size: 15.5px; }
+/* Draft banner across the top of the public feedback site */
+.draft-banner { display: flex; align-items: center; justify-content: center; gap: 14px; flex-wrap: wrap;
+  background: #fdf6e7; color: #7a4f0d; font-weight: 600; font-size: 14px; padding: 9px 16px; text-align: center; }
+.draft-banner .draft-feedback { color: #7a4f0d; border-color: #b7791f; background: #fff; padding: 5px 14px; font-size: 13px; text-decoration: none; }
+.draft-banner .draft-feedback:hover { background: #fff3dc; color: #7a4f0d; }
+/* Armed state for a destructive button awaiting its confirming second click */
+.btn-danger, .btn-danger:hover { background: var(--c-danger); border-color: var(--c-danger); color: #fff; }
+/* Document tabs above the preview — the one being viewed is filled */
+.doc-tab.active, .doc-tab.active:hover { background: #fff; color: var(--c-primary-dark); border-color: #fff; }
+.doc-tab[hidden] { display: none; }
+
+/* ---------- Question flow ---------- */
+.q-header, .plan-actions { display: flex; align-items: center; justify-content: space-between; gap: 12px; }
+.q-header { margin: 6px 0 20px; }
+.q-category-label { font-weight: 650; font-size: 17px; color: var(--c-bg-text); }
+.q-body {
+  background: var(--c-surface); border: 1px solid var(--c-border);
+  border-radius: var(--radius); padding: 26px 28px; box-shadow: var(--shadow);
+}
+.q-form { max-width: 640px; }
+.q-field { margin-bottom: 22px; animation: fade .15s ease; }
+.q-field.q-conditional { border-left: 3px solid var(--c-primary-soft); padding-left: 16px; margin-left: 2px; }
+.q-field label.q-label { display: block; font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+.q-help { font-size: 12.5px; color: var(--c-text-soft); margin: 0 0 10px; }
+.q-hint { font-size: 13px; font-weight: 600; color: var(--c-primary-dark); margin: 8px 0 0; }
+.q-hint[hidden] { display: none; }
+.q-field input[type=text],
+.q-field input[type=number],
+.q-field input[type=date],
+.q-field input[type=time],
+.q-field select {
+  width: 100%; max-width: 380px; font-family: inherit; font-size: 15px;
+  padding: 10px 12px; border: 1px solid var(--c-border); border-radius: var(--radius-sm);
+  background: var(--c-surface); color: var(--c-text);
+}
+.q-field input:focus, .q-field select:focus { outline: none; border-color: var(--c-primary); box-shadow: 0 0 0 3px var(--c-primary-soft); }
+
+/* Choice chips (yes/no + single-select) */
+.choice-set { display: flex; flex-wrap: wrap; gap: 10px; }
+.choice {
+  border: 1px solid var(--c-border); background: var(--c-surface);
+  border-radius: var(--radius-sm); padding: 10px 16px; cursor: pointer;
+  font-size: 14.5px; font-weight: 500; transition: all .12s;
+}
+.choice:hover { border-color: var(--c-primary); }
+.choice.selected { border-color: var(--c-primary); background: var(--c-primary-soft); color: var(--c-primary-dark); font-weight: 600; }
+.choice input { position: absolute; opacity: 0; pointer-events: none; }
+
+.q-footer { margin-top: 10px; }
+
+/* ---------- Action Plan preview ---------- */
+/* ---------- Plan preview: A4 sheets on the letterhead ---------- */
+.plan-body { background: transparent; border: none; box-shadow: none; padding: 0; overflow-x: auto; }
+.sheet {
+  width: 210mm; min-height: 297mm; box-sizing: border-box;
+  margin: 0 auto 26px; background-color: #fff;
+  background-repeat: no-repeat; background-position: center top; background-size: 210mm auto;
+  box-shadow: var(--shadow-lg); color: var(--c-text);
+  padding: 52mm 20mm 44mm 20mm;   /* matches the Word document margins */
+}
+
+/* Front (cover) page */
+.sheet-cover .cover-label { font-size: 13px; letter-spacing: 2px; font-weight: 700; color: var(--c-primary-dark); }
+.sheet-cover .cover-title { font-size: 34px; font-weight: 750; margin: 6px 0 2px; line-height: 1.12; text-wrap: balance; }
+.sheet-cover .cover-council { font-size: 15px; color: var(--c-text-soft); margin-bottom: 36px; }
+.cover-grid { display: flex; flex-direction: column; gap: 0; max-width: 470px; }
+.cover-row { display: flex; gap: 14px; border-bottom: 1px solid var(--c-border); padding: 11px 0; }
+.cover-row .k { flex: 0 0 155px; font-weight: 600; color: var(--c-text-soft); font-size: 13.5px; }
+.cover-row .v { font-weight: 600; font-size: 14.5px; }
+/* Unbranded page for the notifications (overrides the letterhead background) */
+.sheet.sheet-plain { background-image: none; padding: 25mm 20mm; }
+.notif-purpose { font-size: 14px; color: var(--c-text-soft); margin: 0 0 6px; }
+.notif-grid { max-width: none; }
+.notif-grid .cover-row .k { flex-basis: 220px; }
+.cover-note { margin-top: 22px; font-size: 13.5px; font-weight: 600; color: var(--c-warn); background: #fdf6e7; border-radius: 6px; padding: 10px 14px; max-width: 470px; }
+/* Level 1 one-page plan: tighter spacing so everything stays on a single sheet */
+.l1-council { margin-bottom: 20px; }
+.l1-bubble { margin: 26px 0 4px; }
+.l1-foot { margin-top: 26px; }
+.cover-disclaimer { margin-top: 42px; font-size: 12px; font-style: italic; color: var(--c-text-faint); }
+
+/* Topic pages */
+.topic-h { font-size: 22px; margin: 0 0 6px; font-weight: 700; }
+.headline { background: var(--c-primary-soft); color: var(--c-primary-dark); border-radius: var(--radius-sm); padding: 10px 14px; font-weight: 600; font-size: 15px; margin: 8px 0 14px; display: inline-block; }
+.headline.escalate { background: #fdecea; color: var(--c-danger); }
+.headline.ok { background: #e6f5ea; color: #1e7a3c; }
+.sheet h4 { font-size: 13px; text-transform: uppercase; letter-spacing: .5px; color: var(--c-text-soft); margin: 18px 0 8px; }
+.checklist { list-style: none; padding: 0; margin: 0; }
+.checklist li { padding: 10px 0 10px 56px; position: relative; font-size: 14.5px; line-height: 1.55; min-height: 44px; }
+.checklist li::before { content: "\2610"; position: absolute; left: 0; top: 50%; transform: translateY(-50%); font-size: 54px; line-height: 1; color: var(--c-text-faint); }  /* 3× the previous checkbox */
+.gen-reqs { margin: 0; padding-left: 20px; font-size: 14px; color: var(--c-text-soft); }
+.gen-reqs li { margin: 4px 0; }
+
+/* Action checklist — evenly spaced rows, text centred against the checkbox */
+/* One checklist style throughout the plan (Council Documentation Checklist and topic pages) */
+.check-item { display: flex; align-items: center; gap: 12px; padding: 3px 0; }
+.check-item .box { font-size: 36px; line-height: 1; color: var(--c-text-faint); flex: 0 0 auto; }
+.check-item .txt { font-size: 14px; line-height: 1.4; }
+.gen-item { font-size: 14px; color: var(--c-text-soft); padding-left: 16px; text-indent: -16px; margin: 6px 0; }
+
+table.risk { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-top: 6px; table-layout: fixed; }
+table.risk th, table.risk td { border: 1px solid var(--c-border); padding: 7px 7px; text-align: left; vertical-align: top; overflow-wrap: break-word; }
+/* Header size is set so the longest single words (CONSEQUENCE, INSIGNIFICANT) fit the narrow columns on one line */
+table.risk th { background: var(--c-surface-2); font-size: 9px; text-transform: uppercase; letter-spacing: .2px; color: var(--c-text-soft); }
+table.risk tr.blank-row td { height: 38px; }
+table.risk-matrix th, table.risk-matrix td { text-align: center; vertical-align: middle; }
+table.risk-matrix th:first-child { text-align: left; width: 25%; }
+.rating-cell { font-weight: 700; text-align: center; vertical-align: middle; }
+.ctrl-cell { color: var(--c-text-faint); font-style: italic; }
+
+.note-inline { font-size: 12.5px; color: var(--c-warn); background: #fdf6e7; border-radius: 6px; padding: 8px 12px; margin: 10px 0; }
+
+/* ---------- Live strip (during question flow) ---------- */
+.live-strip {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 30;
+  color: #fff; padding: 10px 20px; font-size: 14px;
+  display: flex; align-items: center; gap: 4px; justify-content: center;
+  box-shadow: 0 -2px 12px rgba(16,24,40,.15);
+}
+.live-strip strong { font-weight: 700; }
+.live-strip[hidden] { display: none; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 860px) {
+  .tile-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tile-live { grid-column: span 2; }
+  .plan-meta .meta-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 520px) {
+  .tile-grid { grid-template-columns: 1fr; }
+  .tile-live { grid-column: span 1; }
+  .app-header { flex-direction: column; align-items: flex-start; gap: 10px; }
+  .plan-body { padding: 20px 16px; }
+}
